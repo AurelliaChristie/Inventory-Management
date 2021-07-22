@@ -1,0 +1,44 @@
+{% extends 'IMS/base.html' %}
+
+{% block content %}
+
+<br>
+
+<!-- First Row - Supplier & Customer List -->
+<div class="container">
+    <div class="row">
+      <div class="col">
+        <!-- Supplier List -->
+        <h4>SUPPLIERS</h4> 
+        <hr>
+        <table class="table table-hover table-dark">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Online Shop URL</th>
+                <th scope="col">Telephone</th>
+                <th scope="col">Email</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for supplier in suppliers %}
+              <tr>
+                <th scope="row">{{supplier.id}}</th>
+                <td>{{supplier.SupplierName}}</td>
+                <td>{{supplier.OnlineShopURL}}</td>
+                <td>{{supplier.Telephone}}</td>
+                <td>{{supplier.EmailAddress}}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+      </div>
+
+      <div class="col">
+        <h4>CUSTOMERS</h4> 
+        <hr>
+      </div>
+    </div>
+</div>
+{% endblock %}

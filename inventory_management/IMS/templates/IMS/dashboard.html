@@ -14,19 +14,17 @@
         <table class="table table-hover table-dark">
             <thead>
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Online Shop URL</th>
-                <th scope="col">Telephone</th>
-                <th scope="col">Email</th>
+                <th style="text-align:center">ID</th>
+                <th style="text-align:center">Name</th>
+                <th style="text-align:center">Telephone</th>
+                <th style="text-align:center">Email</th>
               </tr>
             </thead>
             <tbody>
             {% for supplier in suppliers %}
               <tr>
                 <th scope="row">{{supplier.id}}</th>
-                <td>{{supplier.SupplierName}}</td>
-                <td>{{supplier.OnlineShopURL}}</td>
+                <td><a href = "{{supplier.OnlineShopURL}}"> {{supplier.SupplierName}}</a></td>
                 <td>{{supplier.Telephone}}</td>
                 <td>{{supplier.EmailAddress}}</td>
               </tr>
@@ -36,9 +34,87 @@
       </div>
 
       <div class="col">
+        <!-- Customer List -->
         <h4>CUSTOMERS</h4> 
         <hr>
+        <table class="table table-hover table-dark">
+          <thead>
+            <tr>
+              <th style="text-align:center">ID</th>
+              <th style="text-align:center">Name</th>
+              <th style="text-align:center">Telephone</th>
+              <th style="text-align:center">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for customer in customers %}
+            <tr>
+              <th scope="row">{{customer.id}}</th>
+              <td>{{customer.CustomerName}}</td>
+              <td>{{customer.Telephone}}</td>
+              <td>{{customer.EmailAddress}}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
+</div>
+
+<!-- Second Row - Product Category & Product List -->
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <!-- Product Category List -->
+      <h4>PRODUCT CATEGORIES</h4> 
+      <hr>
+      <table class="table table-hover table-dark">
+          <thead>
+            <tr>
+              <th style="text-align:center">ID</th>
+              <th style="text-align:center">Category</th>
+              <th style="text-align:center">Total Product</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for category in categories %}
+            <tr>
+              <th scope="row">{{category.id}}</th>
+              <td>{{category.ProductCategory}}</td>
+              <td>{{category.product_count}}</td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+    </div>
+
+    <div class="col-9">
+      <!-- Product List -->
+      <h4>PRODUCTS</h4> 
+      <hr>
+      <table class="table table-hover table-dark">
+          <thead>
+            <tr>
+              <th style="text-align:center">ID</th>
+              <th style="text-align:center">Name</th>
+              <th style="text-align:center">Category</th>
+              <th style="text-align:center">Description</th>
+              <th style="text-align:center">Image</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for product in products %}
+            <tr>
+              <th scope="row">{{product.id}}</th>
+              <td>{{product.ProductName}}</td>
+              <td>{{product.ProductCategory}}</td>
+              <td>{{product.ProductDescription}}</td>
+              <td style="text-align:center"><img class="rounded-circle article-img" src = "{{ product.ProductImage.url }}" alt = "{{ product.ProductName}}" height="100"></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+    </div>
+  </div>
 </div>
 {% endblock %}

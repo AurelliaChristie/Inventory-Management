@@ -124,6 +124,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# We created new route media in our BASE_DIR
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# How we access the media route
+MEDIA_URL = '/media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

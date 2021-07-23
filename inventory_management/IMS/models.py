@@ -3,12 +3,19 @@ from django.db.models.fields import CharField, DateField, EmailField, PositiveIn
 from django.db.models.fields.files import ImageField
 from django.db.models.fields.related import ForeignKey
 
+# Product Category
+class ProductCategory(models.Model):
+    ProductCategory =  CharField(max_length = 255, null=True)
+
+    def __str__(self):
+        return self.ProductCategory
+
 # Product
 class Product(models.Model):
     ProductName = CharField(max_length = 255, null=True)
-    ProductCategory = CharField(max_length = 255, null=True)
+    ProductCategory = ForeignKey(ProductCategory, null=True, on_delete = models.SET_NULL)
     ProductDescription = TextField(null=True, blank=True)
-    ProductImage = ImageField()
+    ProductImage = ImageField(upload_to = "ProductImage/", null=True, blank = True)
 
     def __str__(self):
         return str(self.ProductCategory) + "_" + str(self.ProductName)

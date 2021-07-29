@@ -7,13 +7,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'IMS-dashboard' %}">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Purchase Stock</a>
+            <a class="nav-link active" href="{% url 'IMS-purchase_stock' %}">Purchase Stock</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Sell Good</a>
+            <a class="nav-link active" href="{% url 'IMS-sell_good' %}">Sell Good</a>
           </li>
         </ul>
 

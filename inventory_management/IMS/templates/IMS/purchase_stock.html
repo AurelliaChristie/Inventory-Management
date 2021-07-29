@@ -1,0 +1,52 @@
+{% extends 'IMS/base.html' %}
+
+<!-- Load Crispy Forms -->
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <!-- Invoices List -->
+                <h4>Purchased Stock Invoices</h4> 
+                <hr>
+                <a
+                    class="btn btn-primary btn-sm btn-block"
+                    href="{% url 'IMS-pinvoice_register' %}"
+                    >Register Invoice</a
+                >
+                <br><br>
+                <table class="table table-hover table-dark">
+                    <thead>
+                      <tr>
+                        <th style="text-align:center">ID</th>
+                        <th style="text-align:center">Supplier Name</th>
+                        <th style="text-align:center">Purchased Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for invoice in invoices %}
+                      <tr>
+                        <th scope="row" style="text-align:center">{{invoice.id}}</th>
+                        <td style="text-align:center">{{invoice.Supplier}}</td>
+                        <td style="text-align:center">{{invoice.PurchaseDate}}</td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+              </div>
+
+          <div class="col">
+            <h4>Purchased Stock Details</h4>
+            <hr>
+            <form action="" method="post">
+              {% csrf_token %}
+              {{ detail_form | crispy }}
+              <br>
+              <input class="btn btn-sm btn-primary" type="submit" name="Submit" />
+            </form>
+        </div>
+        </div>
+      </div>
+{% endblock %}

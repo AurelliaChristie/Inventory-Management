@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
+from django.db.models import Count
 
 from .models import *
 from .forms import *
-from django.db.models import Count
+
 
 # Dashboard
 def dashboard(request):
@@ -17,6 +18,115 @@ def dashboard(request):
         'categories' : categories
     }
     return render(request, 'IMS/dashboard.html', context)
+
+# Supplier
+## Supplier Register
+def supplier_register(request):
+    form = SupplierForm()
+
+    if request.method == "POST":
+        form = SupplierForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context = {'form' : form}
+    return render(request, 'IMS/supplier_form.html', context)
+
+## Supplier Detail
+def supplier_detail(request, pk_supplier):
+    supplier = Supplier.objects.get(id = pk_supplier)
+    invoices = supplier.purchasedstockinvoice_set.all()
+    context = {
+        'supplier': supplier,
+        'invoices': invoices,
+    }
+    return render(request, 'IMS/supplier_detail.html', context)
+
+## Supplier Edit
+def supplier_edit(request, pk_supplier):
+    supplier = Supplier.objects.get(id=pk_supplier)
+    form = SupplierForm(instance=supplier)
+
+    if request.method == 'POST':
+        form = SupplierForm(request.POST, instance=supplier)
+        if form.is_valid():
+            form.save()
+            return redirect('/') 
+
+    context = {'form': form}
+    return render(request, 'IMS/supplier_form.html', context)
+
+## Supplier Delete
+def supplier_delete(request, pk_supplier):
+    supplier = Supplier.objects.get(id = pk_supplier)
+    if request.method == 'POST':
+        supplier.delete()
+        return redirect('/')
+
+    context = {'supplier' : supplier}
+    return render(request, 'IMS/supplier_delete.html', context)
+
+# Customer
+## Customer Register
+def customer_register(request):
+    form = CustomerForm()
+
+    if request.method == "POST":
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context = {'form': form}
+    return render(request, 'IMS/customer_form.html', context)
+
+## Customer Detail
+def customer_detail(request, pk_customer):
+    customer = Customer.objects.get(id = pk_customer)
+    invoices = customer.soldgoodinvoice_set.all()
+    context = {
+        'customer' : customer,
+        'invoices' : invoices
+    }
+    return render(request, 'IMS/customer_detail.html', context)
+
+## Customer Edit
+def customer_edit(request, pk_customer):
+    customer = Customer.objects.get(id = pk_customer)
+    form = CustomerForm(instance = customer)
+
+    if request.method == "POST":
+        form = CustomerForm(request.POST, instance = customer)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    
+    context = {'form' : form}
+    return render(request, 'IMS/customer_form.html', context)
+
+## Customer Delete
+def customer_delete(request, pk_customer):
+    customer = Customer.objects.get(id = pk_customer)
+    if request.method == 'POST':
+        customer.delete()
+        return redirect('/')
+
+    context = {'customer' : customer}
+    return render(request, 'IMS/customer_delete.html', context)
+
+
+# Product Detail
+def product_detail(request, pk_product):
+    product = Product.objects.get(id = pk_product)
+    details = product.productdetails_set.all()
+    context = {
+        'product' : product,
+        'details' : details,
+    }
+
+    return render(request, 'IMS/product_detail.html', context)
+
 
 # Purchase Stock
 def purchase_stock(request):

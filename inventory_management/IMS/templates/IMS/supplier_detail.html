@@ -1,0 +1,87 @@
+{% extends 'IMS/base.html' %}
+
+<!-- Load Crispy Forms -->
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <!-- Supplier Detail -->
+                <h4>Supplier Detail</h4> 
+                <hr>
+                <a
+                    class="btn btn-primary btn-sm btn-block"
+                    href="{% url 'IMS-supplier_edit' supplier.id %}"
+                    >Edit</a
+                >
+                <a
+                    class="btn btn-danger btn-sm btn-block"
+                    href="{% url 'IMS-supplier_delete' supplier.id %}"
+                    >Delete</a
+                >
+                <br>
+                <br>
+                <table class="table table-hover table-dark">
+                    <thead>
+                      <tr>
+                        <th style="text-align:center">ID</th>
+                        <th style="text-align:center">Supplier Name</th>
+                        <th style="text-align:center">Telephone</th>
+                        <th style="text-align:center">Email</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row" style="text-align:center">{{supplier.id}}</th>
+                        <td style="text-align:center"><a href = "{{supplier.OnlineShopURL}}"> {{supplier.SupplierName}}</a></td>
+                        <td style="text-align:center">{{supplier.Telephone}}</td>
+                        <td style="text-align:center">{{supplier.EmailAddress}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <h4>Purchased Stock Invoice</h4>
+            <hr>
+            <table class="table table-hover table-dark">
+                <thead>
+                  <tr>
+                    <th style="text-align:center">ID</th>
+                    <th style="text-align:center">Supplier Name</th>
+                    <th style="text-align:center">Purchased Date</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    {% for invoice in invoices %}
+                    <th scope="row" style="text-align:center">{{invoice.id}}</th>
+                    <td style="text-align:center">{{invoice.Supplier}}</td>
+                    <td style="text-align:center">{{invoice.PurchaseDate}}</td>
+                    <td style="text-align:right">
+                        <a
+                        class="btn btn-primary btn-sm btn-block"
+                        href="#"
+                        >Edit</a
+                        >
+                    </td>
+                    <td style="text-align:left">
+                        <a
+                        class="btn btn-danger btn-sm btn-block"
+                        href="#"
+                        >Delete</a
+                        >
+                    </td>
+                    {% endfor %}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

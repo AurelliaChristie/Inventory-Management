@@ -4,8 +4,22 @@ from . import views
 urlpatterns = [
     # Dashboard view
     path('', views.dashboard, name='IMS-dashboard'),
-    path('purchase-stock/', views.purchase_stock, name='IMS-purchase_stock'),
-    path('purchase-stock/register-invoice/', views.pinvoice_register, name='IMS-pinvoice_register'),
-    path('sell-good/', views.sell_good, name='IMS-sell_good'),
-    path('sell-good/register-invoice/', views.sinvoice_register, name='IMS-sinvoice_register'),
+
+    path('supplier_register/', views.supplier_register, name= 'IMS-supplier_register'),
+    path('supplier_detail/<str:pk_supplier>/', views.supplier_detail, name= 'IMS-supplier_detail'),
+    path('supplier_edit/<str:pk_supplier>/', views.supplier_edit, name= 'IMS-supplier_edit'),
+    path('supplier_delete/<str:pk_supplier>/', views.supplier_delete, name= 'IMS-supplier_delete'),
+
+    path('customer_register/', views.customer_register, name= 'IMS-customer_register'),
+    path('customer_detail/<str:pk_customer>/', views.customer_detail, name= 'IMS-customer_detail'),
+    path('customer_edit/<str:pk_customer>/', views.customer_edit, name= 'IMS-customer_edit'),
+    path('customer_delete/<str:pk_customer>/', views.customer_delete, name='IMS-customer_delete'),
+
+    path('product_detail/<str:pk_product>/', views.product_detail, name= 'IMS-product_detail'),
+
+    path('purchase-stock/', views.purchase_stock, name= 'IMS-purchase_stock'),
+    path('purchase-stock/register-invoice/', views.pinvoice_register, name= 'IMS-pinvoice_register'),
+    
+    path('sell-good/', views.sell_good, name= 'IMS-sell_good'),
+    path('sell-good/register-invoice/', views.sinvoice_register, name= 'IMS-sinvoice_register'),
 ]

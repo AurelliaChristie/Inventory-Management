@@ -9,8 +9,14 @@
     <div class="row">
       <div class="col">
         <!-- Supplier List -->
-        <h4>SUPPLIERS</h4> 
+        <h4>Suppliers</h4> 
         <hr>
+        <a
+          class="btn btn-primary btn-sm btn-block"
+          href="{% url 'IMS-supplier_register' %}"
+          >Register Supplier</a
+        >
+        <br><br>
         <table class="table table-hover table-dark">
             <thead>
               <tr>
@@ -18,6 +24,7 @@
                 <th style="text-align:center">Supplier Name</th>
                 <th style="text-align:center">Telephone</th>
                 <th style="text-align:center">Email</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -27,6 +34,13 @@
                 <td style="text-align:center"><a href = "{{supplier.OnlineShopURL}}"> {{supplier.SupplierName}}</a></td>
                 <td style="text-align:center">{{supplier.Telephone}}</td>
                 <td style="text-align:center">{{supplier.EmailAddress}}</td>
+                <td>
+                  <a
+                  class="btn btn-primary btn-sm btn-block"
+                  href="{% url 'IMS-supplier_detail' supplier.id %}"
+                  >Detail</a
+                  >
+                </td>
               </tr>
             {% endfor %}
             </tbody>
@@ -35,8 +49,14 @@
 
       <div class="col">
         <!-- Customer List -->
-        <h4>CUSTOMERS</h4> 
+        <h4>Customers</h4> 
         <hr>
+        <a
+          class="btn btn-primary btn-sm btn-block"
+          href="{% url 'IMS-customer_register' %}"
+          >Register Customer</a
+        >
+        <br><br>
         <table class="table table-hover table-dark">
           <thead>
             <tr>
@@ -44,6 +64,7 @@
               <th style="text-align:center">Customer Name</th>
               <th style="text-align:center">Telephone</th>
               <th style="text-align:center">Email</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -53,6 +74,11 @@
               <td style="text-align:center">{{customer.CustomerName}}</td>
               <td style="text-align:center">{{customer.Telephone}}</td>
               <td style="text-align:center">{{customer.EmailAddress}}</td>
+              <td><a 
+                class = "btn btn-primary btn-sm btn-block" 
+                href="{% url 'IMS-customer_detail' customer.id %}">Detail</a
+                >
+              </td>
             </tr>
           {% endfor %}
           </tbody>
@@ -66,7 +92,7 @@
   <div class="row">
     <div class="col-4">
       <!-- Product Category List -->
-      <h4>PRODUCT CATEGORIES</h4> 
+      <h4>Product Categories</h4> 
       <hr>
       <table class="table table-hover table-dark">
           <thead>
@@ -90,7 +116,7 @@
 
     <div class="col-8">
       <!-- Product List -->
-      <h4>PRODUCTS</h4> 
+      <h4>Products</h4> 
       <hr>
       <table class="table table-hover table-dark">
           <thead>
@@ -100,6 +126,7 @@
               <th style="text-align:center">Product Category</th>
               <th style="text-align:center">Description</th>
               <th style="text-align:center">Image</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -110,6 +137,12 @@
               <td style="text-align:center">{{product.ProductCategory}}</td>
               <td style="text-align:center">{{product.ProductDescription}}</td>
               <td style="text-align:center"><img class="rounded-circle article-img" src = "{{ product.ProductImage.url }}" alt = "{{ product.ProductName}}" height="100"></td>
+              <td>
+                <a 
+                  class="btn btn-primary btn-sm btn-block"
+                  href="{% url 'IMS-product_detail' product.id %}"> Detail</a
+                >
+              </td>
             </tr>
           {% endfor %}
           </tbody>

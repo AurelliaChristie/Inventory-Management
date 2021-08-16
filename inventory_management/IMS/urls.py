@@ -10,6 +10,10 @@ urlpatterns = [
     path('supplier_edit/<str:pk_supplier>/', views.supplier_edit, name= 'IMS-supplier_edit'),
     path('supplier_delete/<str:pk_supplier>/', views.supplier_delete, name= 'IMS-supplier_delete'),
 
+    path('pinvoice_detail/<str:pk_pinvoice>/', views.pinvoice_detail, name= 'IMS-pinvoice_detail'),
+    path('pinvoice_edit/<str:pk_pinvoice>/', views.pinvoice_edit, name= 'IMS-pinvoice_edit'),
+    path('pinvoice_delete/<str:pk_pinvoice>/', views.pinvoice_delete, name= 'IMS-pinvoice_delete'),
+
     path('customer_register/', views.customer_register, name= 'IMS-customer_register'),
     path('customer_detail/<str:pk_customer>/', views.customer_detail, name= 'IMS-customer_detail'),
     path('customer_edit/<str:pk_customer>/', views.customer_edit, name= 'IMS-customer_edit'),

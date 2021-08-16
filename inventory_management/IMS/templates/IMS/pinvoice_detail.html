@@ -8,17 +8,17 @@
     <div class="container">
         <div class="row">
             <div class="col-8">
-                <!-- Supplier Detail -->
-                <h4>Supplier Detail</h4> 
+                <!-- Purchased Stock Invoice Detail -->
+                <h4>Purchased Stock Invoice Detail</h4> 
                 <hr>
                 <a
                     class="btn btn-primary btn-sm btn-block"
-                    href="{% url 'IMS-supplier_edit' supplier.id %}"
+                    href="{% url 'IMS-pinvoice_edit' pinvoice.id %}"
                     >Edit</a
                 >
                 <a
                     class="btn btn-danger btn-sm btn-block"
-                    href="{% url 'IMS-supplier_delete' supplier.id %}"
+                    href="{% url 'IMS-pinvoice_delete' pinvoice.id %}"
                     >Delete</a
                 >
                 <br>
@@ -28,16 +28,14 @@
                       <tr>
                         <th style="text-align:center">ID</th>
                         <th style="text-align:center">Supplier Name</th>
-                        <th style="text-align:center">Telephone</th>
-                        <th style="text-align:center">Email</th>
+                        <th style="text-align:center">Purchased Date</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <th scope="row" style="text-align:center">{{supplier.id}}</th>
-                        <td style="text-align:center"><a href = "{{supplier.OnlineShopURL}}"> {{supplier.SupplierName}}</a></td>
-                        <td style="text-align:center">{{supplier.Telephone}}</td>
-                        <td style="text-align:center">{{supplier.EmailAddress}}</td>
+                        <th scope="row" style="text-align:center">{{pinvoice.id}}</th>
+                        <td style="text-align:center">{{pinvoice.Supplier}}</td>
+                        <td style="text-align:center">{{pinvoice.PurchaseDate}}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -45,32 +43,44 @@
         </div>
         <div class="row">
           <div class="col-8">
-            <h4>Purchased Stock Invoice</h4>
+            <h4>Purchased Product Detail</h4>
             <hr>
             <table class="table table-hover table-dark">
                 <thead>
                   <tr>
                     <th style="text-align:center">ID</th>
-                    <th style="text-align:center">Supplier Name</th>
-                    <th style="text-align:center">Purchased Date</th>
+                    <th style="text-align:center">Product Name</th>
+                    <th style="text-align:center">Size</th>
+                    <th style="text-align:center">Color</th>
+                    <th style="text-align:center">Qty</th>
+                    <th></th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
+                {% for detail in details %}
                   <tr>
-                    {% for invoice in invoices %}
-                    <th scope="row" style="text-align:center">{{invoice.id}}</th>
-                    <td style="text-align:center">{{invoice.Supplier}}</td>
-                    <td style="text-align:center">{{invoice.PurchaseDate}}</td>
+                    <th scope="row" style="text-align:center">{{detail.id}}</th>
+                    <td style="text-align:center">{{detail.Product}}</td>
+                    <td style="text-align:center">{{detail.Size}}</td>
+                    <td style="text-align:center">{{detail.Color}}</td>
+                    <td style="text-align:center">{{detail.Count}}</td>
                     <td style="text-align:right">
                         <a
                         class="btn btn-primary btn-sm btn-block"
-                        href="{% url 'IMS-pinvoice_detail' invoice.id %}"
-                        >Detail</a
+                        href="#"
+                        >Edit</a
                         >
                     </td>
-                    {% endfor %}
+                    <td style="text-align:left">
+                        <a
+                        class="btn btn-danger btn-sm btn-block"
+                        href="#"
+                        >Delete</a
+                        >
+                    </td>
                   </tr>
+                {% endfor %}
                 </tbody>
               </table>
             </div>

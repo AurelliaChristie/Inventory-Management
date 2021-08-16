@@ -42,7 +42,7 @@
             <hr>
             <form action="" method="post">
               {% csrf_token %}
-              {{ detail_form | crispy }}
+              {{ form | crispy }}
               <br>
               <input class="btn btn-sm btn-primary" type="submit" name="Submit" />
             </form>

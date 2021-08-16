@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.db.models import Count
+from django.db.models import Count, F, Case, When
 
 from .models import *
 from .forms import *
@@ -100,7 +100,7 @@ def customer_edit(request, pk_customer):
         form = CustomerForm(request.POST, instance = customer)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect('IMS-customer_detail')
     
     context = {'form' : form}
     return render(request, 'IMS/customer_form.html', context)
@@ -131,30 +131,81 @@ def product_detail(request, pk_product):
 # Purchase Stock
 def purchase_stock(request):
     invoices = PurchasedStockInvoice.objects.all()
-    detail_form = PurchaseForm()
+    form = PurchaseForm()
     if request.method == 'POST':
-        detail_form = PurchaseForm(request.POST)
-        if detail_form.is_valid():
-            detail_form.save()
-            return redirect('/')
+        form = PurchaseForm(request.POST)
+        if form.is_valid():
+            pinvoice = form.cleaned_data.get('PInvoice')
+            product = form.cleaned_data.get('Product')
+            size = form.cleaned_data.get('Size')
+            color = form.cleaned_data.get('Color')
+            count = form.cleaned_data.get('Count')
+            if ProductDetails.objects.filter(Product = product, Size = size, Color = color).exists():
+                ProductDetails.objects.filter(Product = product, Size = size, Color = color).update(Count = F('Count')+count)
+            else:
+                productdetails = ProductDetails(
+                    Product = product,
+                    Size = size,
+                    Color = color,
+                    Count = count
+                )
+                productdetails.save()
+
+            form.save()
+            return redirect('IMS-pinvoice_detail', pk_pinvoice=pinvoice.id)
     context = {
-        'detail_form' : detail_form,
+        'form' : form,
         'invoices' : invoices
     }
     return render(request, 'IMS/purchase_stock.html', context)
 
-# Purchase Stock Invoice Register
+## Purchase Stock Invoice Register
 def pinvoice_register(request):
-    invoice_form = PInvoiceForm()
+    form = PInvoiceForm()
     if request.method == 'POST':
-        invoice_form = PInvoiceForm(request.POST)
-        if invoice_form.is_valid():
-            invoice_form.save()
+        form = PInvoiceForm(request.POST)
+        if form.is_valid():
+            form.save()
             return redirect('IMS-purchase_stock')
     context = {
-        'invoice_form': invoice_form
+        'form': form
     }
-    return render(request, 'IMS/pinvoice_register.html', context)
+    return render(request, 'IMS/pinvoice_form.html', context)
+
+# Purchase Stock Invoice Detail
+def pinvoice_detail(request, pk_pinvoice):
+    pinvoice = PurchasedStockInvoice.objects.get(id = pk_pinvoice)
+    details = pinvoice.purchasedstockdetails_set.all()
+    context = {
+        'pinvoice' : pinvoice,
+        'details' : details,
+    }
+
+    return render(request, 'IMS/pinvoice_detail.html', context)
+
+# Purchase Stock Invoice Edit
+def pinvoice_edit(request, pk_pinvoice):
+    pinvoice = PurchasedStockInvoice.objects.get(id = pk_pinvoice)
+    form = PInvoiceForm(instance = pinvoice)
+
+    if request.method == "POST":
+        form = PInvoiceForm(request.POST, instance = pinvoice)
+        if form.is_valid():
+            form.save()
+            return redirect('IMS-pinvoice_detail', pk_pinvoice=pk_pinvoice)
+        
+    context = {'form' : form}
+    return render(request, 'IMS/pinvoice_form.html', context)
+
+# Purchase Stock Invoice Delete
+def pinvoice_delete(request, pk_pinvoice):
+    pinvoice = PurchasedStockInvoice.objects.get(id = pk_pinvoice)
+    if request.method == 'POST':
+        pinvoice.delete()
+        return redirect('/')
+    
+    context = {'pinvoice': pinvoice}
+    return render(request, 'IMS/pinvoice_delete.html', context) 
 
 # Sell Good
 def sell_good(request):
@@ -183,3 +234,7 @@ def sinvoice_register(request):
         'invoice_form': invoice_form
     }
     return render(request, 'IMS/sinvoice_register.html', context)
+
+# Sell Good Invoice Detail
+
+# Sell Good Invoice Delete

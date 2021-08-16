@@ -8,11 +8,11 @@
     <div class="container">
         <div class="row">
           <div class="col">
-            <h4>Purchased Stock Invoice Registration</h4>
+            <h4>Purchased Stock Invoice Details</h4>
             <hr>
             <form action="" method="post">
               {% csrf_token %}
-              {{ invoice_form | crispy }}
+              {{ form | crispy }}
               <br>
               <input class="btn btn-sm btn-primary" type="submit" name="Submit" />
             </form>

@@ -13,12 +13,16 @@ urlpatterns = [
     path('pinvoice_detail/<str:pk_pinvoice>/', views.pinvoice_detail, name= 'IMS-pinvoice_detail'),
     path('pinvoice_edit/<str:pk_pinvoice>/', views.pinvoice_edit, name= 'IMS-pinvoice_edit'),
     path('pinvoice_delete/<str:pk_pinvoice>/', views.pinvoice_delete, name= 'IMS-pinvoice_delete'),
+    path('pinvoice_detail_edit/<str:pk_pinvoice_detail>/', views.pinvoice_detail_edit, name= 'IMS-pinvoice_detail_edit'),
+    path('pinvoice_detail_delete/<str:pk_pinvoice_detail>/', views.pinvoice_detail_delete, name= 'IMS-pinvoice_detail_delete'),
 
     path('customer_register/', views.customer_register, name= 'IMS-customer_register'),
     path('customer_detail/<str:pk_customer>/', views.customer_detail, name= 'IMS-customer_detail'),
     path('customer_edit/<str:pk_customer>/', views.customer_edit, name= 'IMS-customer_edit'),
     path('customer_delete/<str:pk_customer>/', views.customer_delete, name='IMS-customer_delete'),
 
+    path('product_category_register/', views.category_register, name= 'IMS-category_register'),
+    path('product_register/', views.product_register, name= 'IMS-product_register'),
     path('product_detail/<str:pk_product>/', views.product_detail, name= 'IMS-product_detail'),
 
     path('purchase-stock/', views.purchase_stock, name= 'IMS-purchase_stock'),

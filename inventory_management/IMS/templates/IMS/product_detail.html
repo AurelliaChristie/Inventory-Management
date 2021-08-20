@@ -22,15 +22,15 @@
                       </tr>
                     </thead>
                     <tbody>
+                      {% for detail in details %}
                       <tr>
-                        {% for detail in details %}
                         <th scope="row" style="text-align:center">{{detail.id}}</th>
                         <td style="text-align:center">{{detail.Product}}</td>
                         <td style="text-align:center">{{detail.Size}}</td>
                         <td style="text-align:center">{{detail.Color}}</td>
                         <td style="text-align:center">{{detail.Count}}</td>
-                        {% endfor %}
                       </tr>
+                      {% endfor %}
                     </tbody>
                   </table>
             </div>

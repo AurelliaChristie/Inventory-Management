@@ -115,8 +115,35 @@ def customer_delete(request, pk_customer):
     context = {'customer' : customer}
     return render(request, 'IMS/customer_delete.html', context)
 
+# Product
+## Category Register
+def category_register(request):
+    form = CategoryForm()
 
-# Product Detail
+    if request.method == "POST":
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    
+    context = {'form' : form}
+    return render(request, 'IMS/category_form.html', context)
+
+
+## Product Register
+def product_register(request):
+    form = ProductForm()
+
+    if request.method == "POST":
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    
+    context = {'form' : form}
+    return render(request, 'IMS/product_form.html', context)
+
+## Product Detail
 def product_detail(request, pk_product):
     product = Product.objects.get(id = pk_product)
     details = product.productdetails_set.all()
@@ -153,6 +180,7 @@ def purchase_stock(request):
 
             form.save()
             return redirect('IMS-pinvoice_detail', pk_pinvoice=pinvoice.id)
+    
     context = {
         'form' : form,
         'invoices' : invoices
@@ -206,6 +234,52 @@ def pinvoice_delete(request, pk_pinvoice):
     
     context = {'pinvoice': pinvoice}
     return render(request, 'IMS/pinvoice_delete.html', context) 
+
+# Purchase Stock Invoice Detail Edit
+def pinvoice_detail_edit(request, pk_pinvoice_detail):
+    pinvoice_detail = PurchasedStockDetails.objects.get(id = pk_pinvoice_detail)
+    form = PurchaseForm(instance = pinvoice_detail)
+    old_count = pinvoice_detail.Count
+
+    if request.method == "POST":
+        form = PurchaseForm(request.POST, instance = pinvoice_detail)
+        if form.is_valid():
+            pinvoice = form.cleaned_data.get('PInvoice')
+            product = form.cleaned_data.get('Product')
+            size = form.cleaned_data.get('Size')
+            color = form.cleaned_data.get('Color')
+            count = form.cleaned_data.get('Count')
+            ProductDetails.objects.filter(Product = product, Size = size, Color = color).update(Count = F('Count')-old_count+count)
+            form.save()
+        return redirect('IMS-pinvoice_detail', pk_pinvoice = pinvoice.id)
+    
+    context = {
+        'form' : form,
+        'pinvoice_detail' : pinvoice_detail
+    }
+    return render(request, 'IMS/pinvoice_detail_edit.html', context)
+
+# Purchase Stock Invoice Detail Delete
+def pinvoice_detail_delete(request, pk_pinvoice_detail):
+    pinvoice_detail = PurchasedStockDetails.objects.get(id = pk_pinvoice_detail)
+    form = PurchaseForm(instance = pinvoice_detail)
+
+    if request.method == 'POST':
+        pinvoice_detail.delete()
+        form = PurchaseForm(request.POST, instance = pinvoice_detail)
+        if form.is_valid():
+            product = form.cleaned_data.get('Product')
+            size = form.cleaned_data.get('Size')
+            color = form.cleaned_data.get('Color')
+            count = form.cleaned_data.get('Count')
+            ProductDetails.objects.filter(Product = product, Size = size, Color = color).update(Count = F('Count')-count)
+        return redirect('/')
+    
+    context = {
+        'pinvoice_detail' : pinvoice_detail
+    }
+    return render(request, 'IMS/pinvoice_detail_delete.html', context) 
+
 
 # Sell Good
 def sell_good(request):

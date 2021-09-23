@@ -148,7 +148,13 @@
               <td style="text-align:center">{{product.ProductName}}</td>
               <td style="text-align:center">{{product.ProductCategory}}</td>
               <td style="text-align:center">{{product.ProductDescription}}</td>
-              <td style="text-align:center"><img class="rounded-circle article-img" src = "{{ product.ProductImage.url }}" alt = "{{ product.ProductName}}" height="100"></td>
+              <td style="text-align:center">
+                {% if product.ProductImage %}
+                  <img class="rounded-circle article-img" src = "{{ product.ProductImage.url }}" alt = "{{ product.ProductName }}" height="100">
+                {% else %}
+                  <p></p>
+                {% endif %}
+                </td>
               <td>
                 <a 
                   class="btn btn-primary btn-sm btn-block"

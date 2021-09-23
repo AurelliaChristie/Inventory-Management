@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     # Dashboard view
@@ -31,3 +33,6 @@ urlpatterns = [
     path('sell-good/', views.sell_good, name= 'IMS-sell_good'),
     path('sell-good/register-invoice/', views.sinvoice_register, name= 'IMS-sinvoice_register'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

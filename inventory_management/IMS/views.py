@@ -135,7 +135,7 @@ def product_register(request):
     form = ProductForm()
 
     if request.method == "POST":
-        form = ProductForm(request.POST)
+        form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('/')
@@ -262,17 +262,10 @@ def pinvoice_detail_edit(request, pk_pinvoice_detail):
 # Purchase Stock Invoice Detail Delete
 def pinvoice_detail_delete(request, pk_pinvoice_detail):
     pinvoice_detail = PurchasedStockDetails.objects.get(id = pk_pinvoice_detail)
-    form = PurchaseForm(instance = pinvoice_detail)
 
     if request.method == 'POST':
+        ProductDetails.objects.filter(Product = pinvoice_detail.Product, Size = pinvoice_detail.Size, Color = pinvoice_detail.Color).update(Count = F('Count')-pinvoice_detail.Count)
         pinvoice_detail.delete()
-        form = PurchaseForm(request.POST, instance = pinvoice_detail)
-        if form.is_valid():
-            product = form.cleaned_data.get('Product')
-            size = form.cleaned_data.get('Size')
-            color = form.cleaned_data.get('Color')
-            count = form.cleaned_data.get('Count')
-            ProductDetails.objects.filter(Product = product, Size = size, Color = color).update(Count = F('Count')-count)
         return redirect('/')
     
     context = {

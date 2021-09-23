@@ -1,0 +1,29 @@
+{% extends 'IMS/base.html' %}
+
+<!-- Load Crispy Forms -->
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            <h4>User Registration</h4>
+            <hr>
+            <form action="" method="post">
+              {% csrf_token %}
+              {{ form | crispy }}
+              <br>
+              <input class="btn btn-sm btn-primary" type="submit" name="Sign Up" />
+            </form>
+        </div>
+        </div>
+        <br>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Already Have An Account?
+                <a href="{% url 'users-login' %}" class="ml-2"> Sign In</a>
+            </small>
+        </div>
+      </div>
+{% endblock %}

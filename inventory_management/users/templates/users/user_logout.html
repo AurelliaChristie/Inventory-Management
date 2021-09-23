@@ -1,0 +1,21 @@
+{% extends 'IMS/base.html' %}
+
+<!-- Load Crispy Forms -->
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            <h4>You have been logged out!</h4>
+        </div>
+        </div>
+        <br>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                <a href="{% url 'users-login' %}">Log In Again</a>
+            </small>
+        </div>
+      </div>
+{% endblock %}

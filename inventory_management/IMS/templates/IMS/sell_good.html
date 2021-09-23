@@ -23,6 +23,7 @@
                         <th style="text-align:center">ID</th>
                         <th style="text-align:center">Customer Name</th>
                         <th style="text-align:center">Sold Date</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -31,6 +32,13 @@
                         <th scope="row" style="text-align:center">{{invoice.id}}</th>
                         <td style="text-align:center">{{invoice.Customer}}</td>
                         <td style="text-align:center">{{invoice.SoldDate}}</td>
+                        <td>
+                          <a
+                          class="btn btn-primary btn-sm btn-block"
+                          href="{% url 'IMS-sinvoice_detail' invoice.id %}"
+                          >Detail</a
+                          >
+                        </td>
                       </tr>
                     {% endfor %}
                     </tbody>
@@ -42,7 +50,7 @@
             <hr>
             <form action="" method="post">
               {% csrf_token %}
-              {{ detail_form | crispy }}
+              {{ form | crispy }}
               <br>
               <input class="btn btn-sm btn-primary" type="submit" name="Submit" />
             </form>

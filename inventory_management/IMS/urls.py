@@ -23,6 +23,12 @@ urlpatterns = [
     path('customer_edit/<str:pk_customer>/', views.customer_edit, name= 'IMS-customer_edit'),
     path('customer_delete/<str:pk_customer>/', views.customer_delete, name='IMS-customer_delete'),
 
+    path('sinvoice_detail/<str:pk_sinvoice>/', views.sinvoice_detail, name= 'IMS-sinvoice_detail'),
+    path('sinvoice_edit/<str:pk_sinvoice>/', views.sinvoice_edit, name= 'IMS-sinvoice_edit'),
+    path('sinvoice_delete/<str:pk_sinvoice>/', views.sinvoice_delete, name= 'IMS-sinvoice_delete'),
+    path('sinvoice_detail_edit/<str:pk_sinvoice_detail>/', views.sinvoice_detail_edit, name= 'IMS-sinvoice_detail_edit'),
+    path('sinvoice_detail_delete/<str:pk_sinvoice_detail>/', views.sinvoice_detail_delete, name= 'IMS-sinvoice_detail_delete'),
+
     path('product_category_register/', views.category_register, name= 'IMS-category_register'),
     path('product_register/', views.product_register, name= 'IMS-product_register'),
     path('product_detail/<str:pk_product>/', views.product_detail, name= 'IMS-product_detail'),

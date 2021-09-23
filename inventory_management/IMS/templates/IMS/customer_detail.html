@@ -54,7 +54,6 @@
                     <th style="text-align:center">Customer Name</th>
                     <th style="text-align:center">Sold Date</th>
                     <th></th>
-                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -66,15 +65,8 @@
                     <td style="text-align:right">
                         <a
                         class="btn btn-primary btn-sm btn-block"
-                        href="#"
-                        >Edit</a
-                        >
-                    </td>
-                    <td style="text-align:left">
-                        <a
-                        class="btn btn-danger btn-sm btn-block"
-                        href="#"
-                        >Delete</a
+                        href="{% url 'IMS-sinvoice_detail' invoice.id %}"
+                        >Detail</a
                         >
                     </td>
                     {% endfor %}

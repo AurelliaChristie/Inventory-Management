@@ -30,7 +30,10 @@ def supplier_register(request):
             form.save()
             return redirect('/')
 
-    context = {'form' : form}
+    context = {
+        'form' : form,
+        'title' : 'Register Supplier'
+    }
     return render(request, 'IMS/supplier_form.html', context)
 
 ## Supplier Detail
@@ -40,6 +43,7 @@ def supplier_detail(request, pk_supplier):
     context = {
         'supplier': supplier,
         'invoices': invoices,
+        'title' : 'Supplier Detail'
     }
     return render(request, 'IMS/supplier_detail.html', context)
 
@@ -54,7 +58,10 @@ def supplier_edit(request, pk_supplier):
             form.save()
             return redirect('/') 
 
-    context = {'form': form}
+    context = {
+        'form': form,
+        'title' : 'Edit Supplier'
+    }
     return render(request, 'IMS/supplier_form.html', context)
 
 ## Supplier Delete
@@ -64,7 +71,10 @@ def supplier_delete(request, pk_supplier):
         supplier.delete()
         return redirect('/')
 
-    context = {'supplier' : supplier}
+    context = {
+        'supplier' : supplier,
+        'title' : 'Delete Supplier'
+    }
     return render(request, 'IMS/supplier_delete.html', context)
 
 # Customer
@@ -78,7 +88,10 @@ def customer_register(request):
             form.save()
             return redirect('/')
 
-    context = {'form': form}
+    context = {
+        'form': form,
+        'title' : 'Register Customer'
+    }
     return render(request, 'IMS/customer_form.html', context)
 
 ## Customer Detail
@@ -87,7 +100,8 @@ def customer_detail(request, pk_customer):
     invoices = customer.soldgoodinvoice_set.all()
     context = {
         'customer' : customer,
-        'invoices' : invoices
+        'invoices' : invoices,
+        'title' : 'Customer Detail'
     }
     return render(request, 'IMS/customer_detail.html', context)
 
@@ -100,9 +114,12 @@ def customer_edit(request, pk_customer):
         form = CustomerForm(request.POST, instance = customer)
         if form.is_valid():
             form.save()
-            return redirect('IMS-customer_detail')
+            return redirect('/')
     
-    context = {'form' : form}
+    context = {
+        'form' : form,
+        'title' : 'Edit Customer'
+    }
     return render(request, 'IMS/customer_form.html', context)
 
 ## Customer Delete
@@ -112,7 +129,10 @@ def customer_delete(request, pk_customer):
         customer.delete()
         return redirect('/')
 
-    context = {'customer' : customer}
+    context = {
+        'customer' : customer,
+        'title' : 'Delete Customer'
+    }
     return render(request, 'IMS/customer_delete.html', context)
 
 # Product
@@ -126,7 +146,10 @@ def category_register(request):
             form.save()
             return redirect('/')
     
-    context = {'form' : form}
+    context = {
+        'form' : form,
+        'title' : 'Register Category'
+    }
     return render(request, 'IMS/category_form.html', context)
 
 
@@ -140,7 +163,10 @@ def product_register(request):
             form.save()
             return redirect('/')
     
-    context = {'form' : form}
+    context = {
+        'form' : form,
+        'title' : 'Register Product'
+    }
     return render(request, 'IMS/product_form.html', context)
 
 ## Product Detail
@@ -150,6 +176,7 @@ def product_detail(request, pk_product):
     context = {
         'product' : product,
         'details' : details,
+        'title' : 'Product Detail'
     }
 
     return render(request, 'IMS/product_detail.html', context)
@@ -183,7 +210,8 @@ def purchase_stock(request):
     
     context = {
         'form' : form,
-        'invoices' : invoices
+        'invoices' : invoices,
+        'title' : 'Purchase Stock'
     }
     return render(request, 'IMS/purchase_stock.html', context)
 
@@ -196,7 +224,8 @@ def pinvoice_register(request):
             form.save()
             return redirect('IMS-purchase_stock')
     context = {
-        'form': form
+        'form': form,
+        'title' : 'Register Purchase Invoice'
     }
     return render(request, 'IMS/pinvoice_form.html', context)
 
@@ -207,6 +236,7 @@ def pinvoice_detail(request, pk_pinvoice):
     context = {
         'pinvoice' : pinvoice,
         'details' : details,
+        'title' : 'Purchase Invoice Detail'
     }
 
     return render(request, 'IMS/pinvoice_detail.html', context)
@@ -222,7 +252,10 @@ def pinvoice_edit(request, pk_pinvoice):
             form.save()
             return redirect('IMS-pinvoice_detail', pk_pinvoice=pk_pinvoice)
         
-    context = {'form' : form}
+    context = {
+        'form' : form,
+        'title' : 'Edit Purchase Invoice'
+    }
     return render(request, 'IMS/pinvoice_form.html', context)
 
 # Purchase Stock Invoice Delete
@@ -232,7 +265,10 @@ def pinvoice_delete(request, pk_pinvoice):
         pinvoice.delete()
         return redirect('/')
     
-    context = {'pinvoice': pinvoice}
+    context = {
+        'pinvoice': pinvoice,
+        'title' : 'Delete Purchase Invoice'
+    }
     return render(request, 'IMS/pinvoice_delete.html', context) 
 
 # Purchase Stock Invoice Detail Edit
@@ -255,7 +291,8 @@ def pinvoice_detail_edit(request, pk_pinvoice_detail):
     
     context = {
         'form' : form,
-        'pinvoice_detail' : pinvoice_detail
+        'pinvoice_detail' : pinvoice_detail,
+        'title' : 'Edit Purchase Detail'
     }
     return render(request, 'IMS/pinvoice_detail_edit.html', context)
 
@@ -269,7 +306,8 @@ def pinvoice_detail_delete(request, pk_pinvoice_detail):
         return redirect('/')
     
     context = {
-        'pinvoice_detail' : pinvoice_detail
+        'pinvoice_detail' : pinvoice_detail,
+        'title' : 'Delete Purchase Detail'
     }
     return render(request, 'IMS/pinvoice_detail_delete.html', context) 
 
@@ -277,15 +315,24 @@ def pinvoice_detail_delete(request, pk_pinvoice_detail):
 # Sell Good
 def sell_good(request):
     invoices = SoldGoodInvoice.objects.all()
-    detail_form = SellForm()
+    form = SellForm()
     if request.method == 'POST':
-        detail_form = SellForm(request.POST)
-        if detail_form.is_valid():
-            detail_form.save()
-            return redirect('/')
+        form = SellForm(request.POST)
+        if form.is_valid():
+            sinvoice = form.cleaned_data.get('SInvoice')
+            product = form.cleaned_data.get('Product')
+            size = form.cleaned_data.get('Size')
+            color = form.cleaned_data.get('Color')
+            count = form.cleaned_data.get('Count')
+            ProductDetails.objects.filter(Product = product, Size = size, Color = color).update(Count = F('Count')-count)
+
+            form.save()
+            return redirect('IMS-sinvoice_detail', pk_sinvoice=sinvoice.id)
+    
     context = {
-        'detail_form' : detail_form,
-        'invoices' : invoices
+        'form' : form,
+        'invoices' : invoices,
+        'title' : 'Sell Good'
     }
     return render(request, 'IMS/sell_good.html', context)
 
@@ -298,10 +345,89 @@ def sinvoice_register(request):
             invoice_form.save()
             return redirect('IMS-sell_good')
     context = {
-        'invoice_form': invoice_form
+        'invoice_form': invoice_form,
+        'title' : 'Register Sell Invoice'
     }
     return render(request, 'IMS/sinvoice_register.html', context)
 
 # Sell Good Invoice Detail
+def sinvoice_detail(request, pk_sinvoice):
+    sinvoice = SoldGoodInvoice.objects.get(id = pk_sinvoice)
+    details = sinvoice.soldgooddetails_set.all()
+    context = {
+        'sinvoice' : sinvoice,
+        'details' : details,
+        'title' : 'Sell Invoice Detail'
+    }
+
+    return render(request, 'IMS/sinvoice_detail.html', context)
+
+# Sell Good Invoice Edit
+def sinvoice_edit(request, pk_sinvoice):
+    sinvoice = SoldGoodInvoice.objects.get(id = pk_sinvoice)
+    form = SInvoiceForm(instance = sinvoice)
+
+    if request.method == "POST":
+        form = SInvoiceForm(request.POST, instance = sinvoice)
+        if form.is_valid():
+            form.save()
+            return redirect('IMS-sinvoice_detail', pk_sinvoice=pk_sinvoice)
+        
+    context = {
+        'form' : form,
+        'title' : 'Edit Sell Invoice'
+    }
+    return render(request, 'IMS/sinvoice_form.html', context)
 
 # Sell Good Invoice Delete
+def sinvoice_delete(request, pk_sinvoice):
+    sinvoice = SoldGoodInvoice.objects.get(id = pk_sinvoice)
+    if request.method == 'POST':
+        sinvoice.delete()
+        return redirect('/')
+    
+    context = {
+        'sinvoice': sinvoice,
+        'title' : 'Delete Sell Invoice'
+    }
+    return render(request, 'IMS/sinvoice_delete.html', context) 
+
+# Sell Good Invoice Detail Edit
+def sinvoice_detail_edit(request, pk_sinvoice_detail):
+    sinvoice_detail = SoldGoodDetails.objects.get(id = pk_sinvoice_detail)
+    form = SellForm(instance = sinvoice_detail)
+    old_count = sinvoice_detail.Count
+
+    if request.method == "POST":
+        form = SellForm(request.POST, instance = sinvoice_detail)
+        if form.is_valid():
+            sinvoice = form.cleaned_data.get('SInvoice')
+            product = form.cleaned_data.get('Product')
+            size = form.cleaned_data.get('Size')
+            color = form.cleaned_data.get('Color')
+            count = form.cleaned_data.get('Count')
+            ProductDetails.objects.filter(Product = product, Size = size, Color = color).update(Count = F('Count')+old_count-count)
+            form.save()
+        return redirect('IMS-sinvoice_detail', pk_sinvoice = sinvoice.id)
+    
+    context = {
+        'form' : form,
+        'sinvoice_detail' : sinvoice_detail,
+        'title' : 'Edit Sell Detail'
+    }
+    return render(request, 'IMS/sinvoice_detail_edit.html', context)
+
+# Sell Good Invoice Detail Delete
+def sinvoice_detail_delete(request, pk_sinvoice_detail):
+    sinvoice_detail = SoldGoodDetails.objects.get(id = pk_sinvoice_detail)
+
+    if request.method == 'POST':
+        ProductDetails.objects.filter(Product = sinvoice_detail.Product, Size = sinvoice_detail.Size, Color = sinvoice_detail.Color).update(Count = F('Count')+sinvoice_detail.Count)
+        sinvoice_detail.delete()
+        return redirect('/')
+    
+    context = {
+        'sinvoice_detail' : sinvoice_detail,
+        'title' : 'Delete Sell Detail'
+    }
+    return render(request, 'IMS/sinvoice_detail_delete.html', context) 

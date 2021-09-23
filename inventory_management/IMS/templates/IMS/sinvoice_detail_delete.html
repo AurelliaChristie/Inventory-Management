@@ -1,0 +1,23 @@
+{% extends 'IMS/base.html' %}
+
+<!-- Load Crispy Forms -->
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <div class="row">
+          <div class="col"> 
+            <h4>Are you sure you want to delete "{{ sinvoice_detail.SInvoice }}_{{ sinvoice_detail.Product }}_{{ sinvoice_detail.Size }}_{{ sinvoice_detail.Color }}"?</h4>
+            <form action="{% url 'IMS-sinvoice_detail_delete' sinvoice_detail.id %}" method="POST">
+              {% csrf_token %}
+              {{ form | crispy }}
+              <input class="btn btn-sm btn-danger" type="submit" name="Yes" />
+              <a  class="btn btn-primary btn-sm btn-block" href="/">
+                  Cancel
+                </a>
+            </form>
+        </div>
+        </div>
+      </div>
+{% endblock %}

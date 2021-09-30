@@ -26,14 +26,12 @@
                 <table class="table table-hover table-dark">
                     <thead>
                       <tr>
-                        <th style="text-align:center">ID</th>
                         <th style="text-align:center">Customer Name</th>
                         <th style="text-align:center">Sold Date</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <th scope="row" style="text-align:center">{{sinvoice.id}}</th>
                         <td style="text-align:center">{{sinvoice.Customer}}</td>
                         <td style="text-align:center">{{sinvoice.SoldDate}}</td>
                       </tr>
@@ -48,7 +46,6 @@
             <table class="table table-hover table-dark">
                 <thead>
                   <tr>
-                    <th style="text-align:center">ID</th>
                     <th style="text-align:center">Product Name</th>
                     <th style="text-align:center">Size</th>
                     <th style="text-align:center">Color</th>
@@ -60,7 +57,6 @@
                 <tbody>
                 {% for detail in details %}
                   <tr>
-                    <th scope="row" style="text-align:center">{{detail.id}}</th>
                     <td style="text-align:center">{{detail.Product}}</td>
                     <td style="text-align:center">{{detail.Size}}</td>
                     <td style="text-align:center">{{detail.Color}}</td>

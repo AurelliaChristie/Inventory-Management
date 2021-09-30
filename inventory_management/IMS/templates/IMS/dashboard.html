@@ -20,7 +20,6 @@
         <table class="table table-hover table-dark">
             <thead>
               <tr>
-                <th style="text-align:center">ID</th>
                 <th style="text-align:center">Supplier Name</th>
                 <th style="text-align:center">Telephone</th>
                 <th style="text-align:center">Email</th>
@@ -30,7 +29,6 @@
             <tbody>
             {% for supplier in suppliers %}
               <tr>
-                <th scope="row" style="text-align:center">{{supplier.id}}</th>
                 <td style="text-align:center"><a href = "{{supplier.OnlineShopURL}}"> {{supplier.SupplierName}}</a></td>
                 <td style="text-align:center">{{supplier.Telephone}}</td>
                 <td style="text-align:center">{{supplier.EmailAddress}}</td>
@@ -60,7 +58,6 @@
         <table class="table table-hover table-dark">
           <thead>
             <tr>
-              <th style="text-align:center">ID</th>
               <th style="text-align:center">Customer Name</th>
               <th style="text-align:center">Telephone</th>
               <th style="text-align:center">Email</th>
@@ -70,7 +67,6 @@
           <tbody>
           {% for customer in customers %}
             <tr>
-              <th scope="row" style="text-align:center">{{customer.id}}</th>
               <td style="text-align:center">{{customer.CustomerName}}</td>
               <td style="text-align:center">{{customer.Telephone}}</td>
               <td style="text-align:center">{{customer.EmailAddress}}</td>
@@ -103,7 +99,6 @@
       <table class="table table-hover table-dark">
           <thead>
             <tr>
-              <th style="text-align:center">ID</th>
               <th style="text-align:center">Product Category</th>
               <th style="text-align:center">Total Product</th>
             </tr>
@@ -111,7 +106,6 @@
           <tbody>
           {% for category in categories %}
             <tr>
-              <th scope="row" style="text-align:center">{{category.id}}</th>
               <td style="text-align:center">{{category.ProductCategory}}</td>
               <td style="text-align:center">{{category.product_count}}</td>
               </tr>
@@ -133,7 +127,6 @@
       <table class="table table-hover table-dark">
           <thead>
             <tr>
-              <th style="text-align:center">ID</th>
               <th style="text-align:center">Product Name</th>
               <th style="text-align:center">Product Category</th>
               <th style="text-align:center">Description</th>
@@ -144,7 +137,6 @@
           <tbody>
           {% for product in products %}
             <tr>
-              <th scope="row" style="text-align:center">{{product.id}}</th>
               <td style="text-align:center">{{product.ProductName}}</td>
               <td style="text-align:center">{{product.ProductCategory}}</td>
               <td style="text-align:center">{{product.ProductDescription}}</td>

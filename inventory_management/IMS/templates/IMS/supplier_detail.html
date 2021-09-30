@@ -26,7 +26,6 @@
                 <table class="table table-hover table-dark">
                     <thead>
                       <tr>
-                        <th style="text-align:center">ID</th>
                         <th style="text-align:center">Supplier Name</th>
                         <th style="text-align:center">Telephone</th>
                         <th style="text-align:center">Email</th>
@@ -34,7 +33,6 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <th scope="row" style="text-align:center">{{supplier.id}}</th>
                         <td style="text-align:center"><a href = "{{supplier.OnlineShopURL}}"> {{supplier.SupplierName}}</a></td>
                         <td style="text-align:center">{{supplier.Telephone}}</td>
                         <td style="text-align:center">{{supplier.EmailAddress}}</td>
@@ -50,7 +48,6 @@
             <table class="table table-hover table-dark">
                 <thead>
                   <tr>
-                    <th style="text-align:center">ID</th>
                     <th style="text-align:center">Supplier Name</th>
                     <th style="text-align:center">Purchased Date</th>
                     <th></th>
@@ -59,7 +56,6 @@
                 <tbody>
                   {% for invoice in invoices %}
                   <tr>
-                    <th scope="row" style="text-align:center">{{invoice.id}}</th>
                     <td style="text-align:center">{{invoice.Supplier}}</td>
                     <td style="text-align:center">{{invoice.PurchaseDate}}</td>
                     <td style="text-align:right">

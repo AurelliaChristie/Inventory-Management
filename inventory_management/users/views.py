@@ -1,5 +1,8 @@
+from django.contrib.auth import login
 from django.shortcuts import redirect, render
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 from .forms import *
 
 # User Registration
@@ -20,3 +23,19 @@ def user_register(request):
         'title': 'User Registration'
     }
     return render(request, 'users/user_register.html', context)
+
+# User Profile
+@login_required()
+def user_profile(request):
+    form = UserProfileUpdateForm(instance = request.user)
+    if request.method == "POST":
+        form = UserProfileUpdateForm(request.POST, instance = request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account has been updated!')
+            return redirect('users-profile')
+        else:
+            form = UserProfileUpdateForm(instance = request.user)
+        
+    context = {'form': form}
+    return render(request, 'users/user_profile.html', context)

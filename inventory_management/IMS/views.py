@@ -1,16 +1,19 @@
+from django.contrib.auth import login
 from django.shortcuts import render, redirect
-from django.db.models import Count, F, Case, When
+from django.db.models import Count, F
+from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .forms import *
 
 
 # Dashboard
+@login_required
 def dashboard(request):
-    suppliers = Supplier.objects.all()
-    customers = Customer.objects.all()
-    products = Product.objects.all()
-    categories = ProductCategory.objects.all().annotate(product_count = Count('product'))
+    suppliers = Supplier.objects.filter(User = request.user)
+    customers = Customer.objects.filter(User = request.user)
+    products = Product.objects.filter(User = request.user)
+    categories = ProductCategory.objects.filter(User = request.user).annotate(product_count = Count('product'))
     context = {
         'suppliers' : suppliers,
         'customers' : customers,
@@ -21,13 +24,16 @@ def dashboard(request):
 
 # Supplier
 ## Supplier Register
+@login_required
 def supplier_register(request):
     form = SupplierForm()
 
     if request.method == "POST":
         form = SupplierForm(request.POST)
         if form.is_valid():
-            form.save()
+            supplier = form.save(False)
+            supplier.User = request.user
+            supplier.save()
             return redirect('/')
 
     context = {
@@ -37,6 +43,7 @@ def supplier_register(request):
     return render(request, 'IMS/supplier_form.html', context)
 
 ## Supplier Detail
+@login_required
 def supplier_detail(request, pk_supplier):
     supplier = Supplier.objects.get(id = pk_supplier)
     invoices = supplier.purchasedstockinvoice_set.all()
@@ -48,6 +55,7 @@ def supplier_detail(request, pk_supplier):
     return render(request, 'IMS/supplier_detail.html', context)
 
 ## Supplier Edit
+@login_required
 def supplier_edit(request, pk_supplier):
     supplier = Supplier.objects.get(id=pk_supplier)
     form = SupplierForm(instance=supplier)
@@ -65,6 +73,7 @@ def supplier_edit(request, pk_supplier):
     return render(request, 'IMS/supplier_form.html', context)
 
 ## Supplier Delete
+@login_required
 def supplier_delete(request, pk_supplier):
     supplier = Supplier.objects.get(id = pk_supplier)
     if request.method == 'POST':
@@ -79,13 +88,16 @@ def supplier_delete(request, pk_supplier):
 
 # Customer
 ## Customer Register
+@login_required
 def customer_register(request):
     form = CustomerForm()
 
     if request.method == "POST":
         form = CustomerForm(request.POST)
         if form.is_valid():
-            form.save()
+            customer = form.save(False)
+            customer.User = request.user
+            customer.save()
             return redirect('/')
 
     context = {
@@ -95,6 +107,7 @@ def customer_register(request):
     return render(request, 'IMS/customer_form.html', context)
 
 ## Customer Detail
+@login_required
 def customer_detail(request, pk_customer):
     customer = Customer.objects.get(id = pk_customer)
     invoices = customer.soldgoodinvoice_set.all()
@@ -106,6 +119,7 @@ def customer_detail(request, pk_customer):
     return render(request, 'IMS/customer_detail.html', context)
 
 ## Customer Edit
+@login_required
 def customer_edit(request, pk_customer):
     customer = Customer.objects.get(id = pk_customer)
     form = CustomerForm(instance = customer)
@@ -123,6 +137,7 @@ def customer_edit(request, pk_customer):
     return render(request, 'IMS/customer_form.html', context)
 
 ## Customer Delete
+@login_required
 def customer_delete(request, pk_customer):
     customer = Customer.objects.get(id = pk_customer)
     if request.method == 'POST':
@@ -137,13 +152,16 @@ def customer_delete(request, pk_customer):
 
 # Product
 ## Category Register
+@login_required
 def category_register(request):
     form = CategoryForm()
 
     if request.method == "POST":
         form = CategoryForm(request.POST)
         if form.is_valid():
-            form.save()
+            category = form.save(False)
+            category.User = request.user
+            category.save()
             return redirect('/')
     
     context = {
@@ -154,13 +172,16 @@ def category_register(request):
 
 
 ## Product Register
+@login_required
 def product_register(request):
     form = ProductForm()
 
     if request.method == "POST":
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            product = form.save(False)
+            product.User = request.user
+            product.save()
             return redirect('/')
     
     context = {
@@ -170,6 +191,7 @@ def product_register(request):
     return render(request, 'IMS/product_form.html', context)
 
 ## Product Detail
+@login_required
 def product_detail(request, pk_product):
     product = Product.objects.get(id = pk_product)
     details = product.productdetails_set.all()
@@ -183,6 +205,7 @@ def product_detail(request, pk_product):
 
 
 # Purchase Stock
+@login_required
 def purchase_stock(request):
     invoices = PurchasedStockInvoice.objects.all()
     form = PurchaseForm()
@@ -204,8 +227,10 @@ def purchase_stock(request):
                     Count = count
                 )
                 productdetails.save()
+            purchase = form.save(False)
+            purchase.User = request.user
+            purchase.save()
 
-            form.save()
             return redirect('IMS-pinvoice_detail', pk_pinvoice=pinvoice.id)
     
     context = {
@@ -216,12 +241,15 @@ def purchase_stock(request):
     return render(request, 'IMS/purchase_stock.html', context)
 
 ## Purchase Stock Invoice Register
+@login_required
 def pinvoice_register(request):
     form = PInvoiceForm()
     if request.method == 'POST':
         form = PInvoiceForm(request.POST)
         if form.is_valid():
-            form.save()
+            pinvoice = form.save(False)
+            pinvoice.User = request.user
+            pinvoice.save()
             return redirect('IMS-purchase_stock')
     context = {
         'form': form,
@@ -230,6 +258,7 @@ def pinvoice_register(request):
     return render(request, 'IMS/pinvoice_form.html', context)
 
 # Purchase Stock Invoice Detail
+@login_required
 def pinvoice_detail(request, pk_pinvoice):
     pinvoice = PurchasedStockInvoice.objects.get(id = pk_pinvoice)
     details = pinvoice.purchasedstockdetails_set.all()
@@ -242,6 +271,7 @@ def pinvoice_detail(request, pk_pinvoice):
     return render(request, 'IMS/pinvoice_detail.html', context)
 
 # Purchase Stock Invoice Edit
+@login_required
 def pinvoice_edit(request, pk_pinvoice):
     pinvoice = PurchasedStockInvoice.objects.get(id = pk_pinvoice)
     form = PInvoiceForm(instance = pinvoice)
@@ -259,6 +289,7 @@ def pinvoice_edit(request, pk_pinvoice):
     return render(request, 'IMS/pinvoice_form.html', context)
 
 # Purchase Stock Invoice Delete
+@login_required
 def pinvoice_delete(request, pk_pinvoice):
     pinvoice = PurchasedStockInvoice.objects.get(id = pk_pinvoice)
     if request.method == 'POST':
@@ -272,6 +303,7 @@ def pinvoice_delete(request, pk_pinvoice):
     return render(request, 'IMS/pinvoice_delete.html', context) 
 
 # Purchase Stock Invoice Detail Edit
+@login_required
 def pinvoice_detail_edit(request, pk_pinvoice_detail):
     pinvoice_detail = PurchasedStockDetails.objects.get(id = pk_pinvoice_detail)
     form = PurchaseForm(instance = pinvoice_detail)
@@ -297,6 +329,7 @@ def pinvoice_detail_edit(request, pk_pinvoice_detail):
     return render(request, 'IMS/pinvoice_detail_edit.html', context)
 
 # Purchase Stock Invoice Detail Delete
+@login_required
 def pinvoice_detail_delete(request, pk_pinvoice_detail):
     pinvoice_detail = PurchasedStockDetails.objects.get(id = pk_pinvoice_detail)
 
@@ -313,6 +346,7 @@ def pinvoice_detail_delete(request, pk_pinvoice_detail):
 
 
 # Sell Good
+@login_required
 def sell_good(request):
     invoices = SoldGoodInvoice.objects.all()
     form = SellForm()
@@ -325,8 +359,11 @@ def sell_good(request):
             color = form.cleaned_data.get('Color')
             count = form.cleaned_data.get('Count')
             ProductDetails.objects.filter(Product = product, Size = size, Color = color).update(Count = F('Count')-count)
+            
+            sell = form.save(False)
+            sell.User = request.user
+            sell.save()
 
-            form.save()
             return redirect('IMS-sinvoice_detail', pk_sinvoice=sinvoice.id)
     
     context = {
@@ -337,12 +374,15 @@ def sell_good(request):
     return render(request, 'IMS/sell_good.html', context)
 
 # Sell Good Invoice Register
+@login_required
 def sinvoice_register(request):
     invoice_form = SInvoiceForm()
     if request.method == 'POST':
         invoice_form = SInvoiceForm(request.POST)
         if invoice_form.is_valid():
-            invoice_form.save()
+            sinvoice = invoice_form.save(False)
+            sinvoice.User = request.user
+            sinvoice.save()
             return redirect('IMS-sell_good')
     context = {
         'invoice_form': invoice_form,
@@ -351,6 +391,7 @@ def sinvoice_register(request):
     return render(request, 'IMS/sinvoice_register.html', context)
 
 # Sell Good Invoice Detail
+@login_required
 def sinvoice_detail(request, pk_sinvoice):
     sinvoice = SoldGoodInvoice.objects.get(id = pk_sinvoice)
     details = sinvoice.soldgooddetails_set.all()
@@ -363,6 +404,7 @@ def sinvoice_detail(request, pk_sinvoice):
     return render(request, 'IMS/sinvoice_detail.html', context)
 
 # Sell Good Invoice Edit
+@login_required
 def sinvoice_edit(request, pk_sinvoice):
     sinvoice = SoldGoodInvoice.objects.get(id = pk_sinvoice)
     form = SInvoiceForm(instance = sinvoice)
@@ -380,6 +422,7 @@ def sinvoice_edit(request, pk_sinvoice):
     return render(request, 'IMS/sinvoice_form.html', context)
 
 # Sell Good Invoice Delete
+@login_required
 def sinvoice_delete(request, pk_sinvoice):
     sinvoice = SoldGoodInvoice.objects.get(id = pk_sinvoice)
     if request.method == 'POST':
@@ -393,6 +436,7 @@ def sinvoice_delete(request, pk_sinvoice):
     return render(request, 'IMS/sinvoice_delete.html', context) 
 
 # Sell Good Invoice Detail Edit
+@login_required
 def sinvoice_detail_edit(request, pk_sinvoice_detail):
     sinvoice_detail = SoldGoodDetails.objects.get(id = pk_sinvoice_detail)
     form = SellForm(instance = sinvoice_detail)
@@ -418,6 +462,7 @@ def sinvoice_detail_edit(request, pk_sinvoice_detail):
     return render(request, 'IMS/sinvoice_detail_edit.html', context)
 
 # Sell Good Invoice Detail Delete
+@login_required
 def sinvoice_detail_delete(request, pk_sinvoice_detail):
     sinvoice_detail = SoldGoodDetails.objects.get(id = pk_sinvoice_detail)
 
